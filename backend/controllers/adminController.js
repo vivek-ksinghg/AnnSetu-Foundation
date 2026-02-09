@@ -4,7 +4,7 @@ import Admin from "../models/admin/admin.js";
 import NGO from "../models/ngo/ngo.js";
 import Volunteer from "../models/volunteer/volunteer.js";
 import Donation from "../models/donor/donation.js";
-import Donor from "../models/donor/Donor.js";
+import Donor from "../models/donor/donor.js";
 import { getCoordinatesFromAddress } from "../utils/geocode.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
