@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import DonorNavbar from './DonorNavbar.jsx';
-import VolunteerNavbar from './Volunteernavbar.jsx';
+import VolunteerNavbar from './VolunteerNavbar.jsx';
 import NGONavbar from './NgoNavbar.jsx';
 import { NavLink as Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
