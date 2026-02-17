@@ -17,6 +17,7 @@ import Certificaterouter from './routes/certificateRoutes.js';
 // app config
 const app=express();
 const port=process.env.PORT || 4000
+const isProd = process.env.NODE_ENV === "production";
 await connectDB();
 
 
@@ -26,7 +27,11 @@ connectCloudinary(); //cloudinary connect hora hai
 
 //middleware
 app.use(express.json())
-app.use(cors())
+const corsOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+app.use(cors({ origin: corsOrigins.length ? corsOrigins : "*" }))
 app.use((req, res, next) => {
   // console.log("REQ", req.method, req.url);
   next();
@@ -37,62 +42,68 @@ app.use('/api/ngo',ngoRouter)
 app.use('/api/volunteer',volunteerRouter)
 app.get("/api/public/impact-stats", getImpactStats)
 app.get("/api/public/impact-overview", getImpactOverview)
-app.use('/api/admin', (req,res,next)=>{ console.log('admin route hit', req.method, req.url); next(); }, adminRouter)
+if (!isProd) {
+  app.use('/api/admin', (req,res,next)=>{ console.log('admin route hit', req.method, req.url); next(); }, adminRouter)
+} else {
+  app.use('/api/admin', adminRouter)
+}
 
 app.post('/api/admin/login', loginAdmin)
 app.get('/api/admin/login', (req, res) => res.send('admin login GET test'))
 app.get('/api/admin/stats', authAdmin, stats)
 app.get('/api/admin/donations', authAdmin, listAllDonations)
 app.delete('/api/admin/donations/:id', authAdmin, deleteDonation)
-try {
-  const listRoutes = (app) => {
-    const routes = [];
-    const stack = app._router?.stack || app.router?.stack || [];
-    stack.forEach((middleware) => {
-      if (middleware.route) {
-        const methods = Object.keys(middleware.route.methods).join(",").toUpperCase();
-        routes.push(`${methods} ${middleware.route.path}`);
-      } else if (middleware.name === "router" && middleware.handle.stack) {
-        middleware.handle.stack.forEach((handler) => {
-          const route = handler.route;
-          if (route) {
-            const methods = Object.keys(route.methods).join(",").toUpperCase();
-            routes.push(`${methods} ${middleware.regexp} -> ${route.path}`);
-          }
-        });
-      }
-    });
- 
-    return routes;
-  };
-  listRoutes(app);
-} catch (e) {
-  console.log("Route listing failed:", e.message);
-}
-
-app.get('/api/_debug/routes', (req, res) => {
+if (!isProd) {
   try {
-    const stack = app._router?.stack || app.router?.stack || [];
-    const routes = [];
-    stack.forEach((middleware) => {
-      if (middleware.route) {
-        const methods = Object.keys(middleware.route.methods).join(",").toUpperCase();
-        routes.push({ methods, path: middleware.route.path });
-      } else if (middleware.name === "router" && middleware.handle?.stack) {
-        middleware.handle.stack.forEach((handler) => {
-          const route = handler.route;
-          if (route) {
-            const methods = Object.keys(route.methods).join(",").toUpperCase();
-            routes.push({ methods, path: route.path });
-          }
-        });
-      }
-    });
-    res.status(200).json({ success: true, count: routes.length, routes });
+    const listRoutes = (app) => {
+      const routes = [];
+      const stack = app._router?.stack || app.router?.stack || [];
+      stack.forEach((middleware) => {
+        if (middleware.route) {
+          const methods = Object.keys(middleware.route.methods).join(",").toUpperCase();
+          routes.push(`${methods} ${middleware.route.path}`);
+        } else if (middleware.name === "router" && middleware.handle.stack) {
+          middleware.handle.stack.forEach((handler) => {
+            const route = handler.route;
+            if (route) {
+              const methods = Object.keys(route.methods).join(",").toUpperCase();
+              routes.push(`${methods} ${middleware.regexp} -> ${route.path}`);
+            }
+          });
+        }
+      });
+
+      return routes;
+    };
+    listRoutes(app);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    console.log("Route listing failed:", e.message);
   }
-})
+
+  app.get('/api/_debug/routes', (req, res) => {
+    try {
+      const stack = app._router?.stack || app.router?.stack || [];
+      const routes = [];
+      stack.forEach((middleware) => {
+        if (middleware.route) {
+          const methods = Object.keys(middleware.route.methods).join(",").toUpperCase();
+          routes.push({ methods, path: middleware.route.path });
+        } else if (middleware.name === "router" && middleware.handle?.stack) {
+          middleware.handle.stack.forEach((handler) => {
+            const route = handler.route;
+            if (route) {
+              const methods = Object.keys(route.methods).join(",").toUpperCase();
+              routes.push({ methods, path: route.path });
+            }
+          });
+        }
+      });
+      res.status(200).json({ success: true, count: routes.length, routes });
+    } catch (e) {
+      res.status(500).json({ success: false, message: e.message });
+    }
+  })
+}
 
 
 
@@ -100,6 +111,9 @@ app.use("/api/chatbot", chatBoatRouter);
 
 app.use("/api/certificates",Certificaterouter)
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ ok: true });
+})
 
 app.get('/',(req,res)=>{
      res.send("Api working " )
