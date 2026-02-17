@@ -23,13 +23,7 @@ const NGONavbar = () => {
          window.addEventListener('scroll', handleScroll);
          return () => window.removeEventListener('scroll', handleScroll);
        }, []);
-     
-       const handleClick = () => {
-         setOpen(true);
-         // Auto-close dropdown after 2 seconds
-         setTimeout(() => setOpen(false), 2000);
-       };
-     
+      
   return (
     <nav className="fixed top-0 left-0 w-full z-50  bg-green-500 backdrop-blur-md shadow-md text-white">
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
@@ -114,8 +108,14 @@ const NGONavbar = () => {
               </li>
             ))}
             <li>
-              <button className="mt-2 px-5 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">
-              
+              <button
+                onClick={() => {
+                  logoutNgo();
+                  setMenuOpen(false);
+                }}
+                className="mt-2 px-5 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition"
+              >
+                Logout
               </button>
             </li>
 

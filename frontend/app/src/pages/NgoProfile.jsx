@@ -8,10 +8,6 @@ const NgoProfile = () => {
   const [monthly, setMonthly] = useState([]);
   const [loadingStats, setLoadingStats] = useState(false);
 
-  const coords = Array.isArray(ngo?.location?.coordinates)
-    ? ngo.location.coordinates
-    : [0, 0];
-
   useEffect(() => {
     const fetchStats = async () => {
       try {

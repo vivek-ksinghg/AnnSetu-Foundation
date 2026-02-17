@@ -14,8 +14,8 @@ const AllVolunteers = () => {
         {headers:{token}}
       );
       setVolunteers(res.data?.data || []);
-    } catch (error) {
-      
+    } catch {
+      setVolunteers([]);
     } finally {
       setLoading(false);
     }

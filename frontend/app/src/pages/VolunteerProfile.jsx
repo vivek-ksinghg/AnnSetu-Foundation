@@ -6,7 +6,6 @@ import { MapPin } from "lucide-react";
 import profilePic from "../assets/profile_pic.jpg";
 import { useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
-import { assets } from "../assets/assets";
 
 const VolunteerProfile = () => {
   const {
