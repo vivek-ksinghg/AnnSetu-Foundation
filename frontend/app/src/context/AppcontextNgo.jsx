@@ -8,16 +8,12 @@ import { jwtDecode } from "jwt-decode";
 export const AppContextNgo = createContext();
 
  const AppContextProviderNgo = ({ children }) => {
-<<<<<<< HEAD
   const backendUrl = (
     import.meta.env.VITE_BACKEND_URL ||
     (import.meta.env.PROD
       ? "https://annsetu-foundation.onrender.com"
       : "http://localhost:4000")
   ).replace(/\/$/, "");
-=======
-  const backendUrl ="https://annsetu-foundation.onrender.com" // ✅ your backend base URL
->>>>>>> 25c27621ca0e144141d2d7f7f755a9b6a0cff416
 const navigate=useNavigate()
   // 🔹 Auth states
   const [ngo, setNgo] = useState(null);

@@ -9,16 +9,12 @@ import { jwtDecode } from "jwt-decode";
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-<<<<<<< HEAD
   const backendUrl = (
     import.meta.env.VITE_BACKEND_URL ||
     (import.meta.env.PROD
       ? "https://annsetu-foundation.onrender.com"
       : "http://localhost:4000")
   ).replace(/\/$/, "");
-=======
-  const backendUrl ="https://annsetu-foundation.onrender.com";
->>>>>>> 25c27621ca0e144141d2d7f7f755a9b6a0cff416
   const [token, setToken] = useState(
     localStorage.getItem("token") ? localStorage.getItem("token") : false
   );
