@@ -47,6 +47,7 @@ const DonorNavbar = () => {
          }`}
        >
          {/* Left: Logo + Title */}
+            <NavLink to='/home'>
          <div className="flex items-center space-x-3">
            <img
              src={assets.logo}
@@ -59,6 +60,7 @@ const DonorNavbar = () => {
              AnnSetu Foundation
            </h1>
          </div>
+         </NavLink>
    
          {/* Right: Menu */}
          <ul className="flex space-x-6 text-xl">
