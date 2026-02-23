@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 // Sample FAQ data with 14 questions
 const faqData = [
-  { question: "What is the Robin Hood Army?", answer: "The Robin Hood Army is a volunteer-based organization that works to feed the hungry in communities across the world." },
+  { question: "What is the AnnSetu?", answer: "The AnnSetu is a volunteer-based organization that works to feed the hungry in communities across the world." },
   { question: "How did this start?", answer: "It started when a group of friends wanted to reduce food wastage and help those in need." },
   { question: "Where are you active?", answer: "We are active in multiple cities across different countries." },
   { question: "Do you collect funds?", answer: "We do not collect funds; we operate through volunteers and donations of food." },
   { question: "How do you manage without money?", answer: "We rely on volunteers and partnerships with restaurants and food providers." },
   { question: "How can I volunteer?", answer: "You can join as a volunteer or help spread the word about our mission." },
   { question: "Do volunteers get certificates?", answer: "Yes, active volunteers receive a certificate recognizing their contribution." },
-  { question: "Can I donate money?", answer: "We do not accept monetary donations; you can donate food or volunteer your time." },
+  { question: "Can I donate money?", answer: "Yes,you can donate money."  },
   { question: "How can I start a chapter?", answer: "Reach out to us and we will guide you to start a chapter in your city." },
   { question: "What kind of food do you distribute?", answer: "We distribute cooked meals as well as packaged food that is safe to consume." },
   { question: "Who can join as a volunteer?", answer: "Anyone above 16 years of age can volunteer with us." },
